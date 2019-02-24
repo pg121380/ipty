@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+   	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+   	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+   	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd   "
+    
+	default-autowire="byName" default-lazy-init="true">
+	<!-- 开启组件扫描 -->
+	<context:component-scan base-package="com.ipty.www"></context:component-scan>
+	
+	<!-- 配置文件上传 -->
+	<!-- 定义文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设定默认编码 -->
+        <property name="defaultEncoding" value="UTF-8" />
+        <!-- 设定文件上传的最大值5MB，5*1024*1024 -->
+        <property name="maxUploadSize" value="5242880" />
+        <property name="maxInMemorySize" value="4096" />
+    </bean>
+	
+	
+	<!-- 配置mysql连接池 -->
+	<bean id = "ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/ipty?characterEncoding=utf-8"/><!-- 本机的话可以直接这样概括 -->
+		<property name="username" value="root"/>
+		<!--<property name="password" value="NewZeaLand2018"/>-->
+		<property name="password" value="123456"/>
+	</bean>
+	
+	<!-- 配置SqlSessionFactoryBean -->
+	<!-- spring配置mybaits框架 -->
+	<bean id="ssfb" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 不再使用mybatis自带的连接池，而使用spirng管理的连接池 -->
+		<property name="dataSource" ref="ds"></property>
+		<!--映射文件的位置-->
+		<property name="mapperLocations" value="classpath:mappers/*.xml"></property>
+	</bean>	
+
+	<!-- 配置Mapper映射器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- 这个包会自动调用mvc扫描 -->
+		<!-- Mapper映射器所在的包 -->
+		<property name="basePackage" value="com.ipty.www.mapper"></property>
+	</bean>
+
+ 
+ 
+ 
+ 
+ <!-- ————————————————————————————————————————shiro框架—————————————————————————————————————————————————————— -->
+ 	<!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="realm" ref="ShiroRealm"/>
+        <!-- <property name="realms">
+        	 <list>
+        		<ref bean="ShiroRealm"/>
+        		<ref bean="SecondRealm"/>
+        	</list>
+        </property> -->
+    </bean>
+	
+    <!-- 缓存管理器 使用Ehcache实现 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManager" ref="ehCacheManager"/>
+    </bean>
+    <bean id="ehCacheManager" class ="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    	<property name="configLocation" value="classpath:others/ehcache.xml" />
+    	<property name="shared" value="true"/>
+    </bean>
+
+
+    <!-- Realm实现 -->
+    <bean id="ShiroRealm" class="com.wego.shiro.ShiroRealm">
+    	<property name="credentialsMatcher">
+			<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+				<property name="hashAlgorithmName" value="MD5"></property>
+				<property name="hashIterations" value="1024"></property>
+			</bean>
+		</property>
+    </bean>
+
+	<!-- FormAuthenticationFilter
+	<bean id="formAuthenticationFilter" class="com.wego.shiro.SuperFormAuthenticationFilter">
+		
+	</bean> -->
+
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login.jsp"/>
+        <property name="successUrl" value="/success.jsp"/>
+        <property name="unauthorizedUrl" value="/error.jsp"/>
+        <!-- 代表我们要完成shiro过滤器的具体配置 
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>
+        -->
+        <!--  
+        	配置哪些页面需要受保护. 
+        	以及访问这些页面需要的权限. 
+        	1). anon 可以被匿名访问
+        	2). authc 必须认证(即登录)后才可能访问的页面. 
+        	3). logout 登出.
+        	4). roles 角色过滤器
+        -->
+        <property name="filterChainDefinitions">
+            <value>
+                <!-- /login.jsp = anon   -->
+                <!-- /logout = logout   -->
+                <!-- /login = anon -->
+                /** = anon
+            </value>
+        </property>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+     <!-- ————————————————————————————————————————shiro框架—————————————————————————————————————————————————————— -->
+</beans>
