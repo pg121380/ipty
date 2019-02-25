@@ -9,6 +9,7 @@
     <result column="lectures" property="lectures" jdbcType="VARCHAR" />
     <result column="organizer" property="organizer" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.ipty.www.pojo.Event" extends="BaseResultMap" >
     <result column="body" property="body" jdbcType="LONGVARCHAR" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, categories, price, start, lectures, organizer, address
+    id, categories, price, start, lectures, organizer, address, picture
   </sql>
   <sql id="Blob_Column_List" >
     body
@@ -128,10 +129,12 @@
   <insert id="insert" parameterType="com.ipty.www.pojo.Event" >
     insert into event (id, categories, price, 
       start, lectures, organizer, 
-      address, body)
+      address, picture, body
+      )
     values (#{id,jdbcType=VARCHAR}, #{categories,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
       #{start,jdbcType=VARCHAR}, #{lectures,jdbcType=VARCHAR}, #{organizer,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{body,jdbcType=LONGVARCHAR})
+      #{address,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, #{body,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ipty.www.pojo.Event" >
     insert into event
@@ -156,6 +159,9 @@
       </if>
       <if test="address != null" >
         address,
+      </if>
+      <if test="picture != null" >
+        picture,
       </if>
       <if test="body != null" >
         body,
@@ -182,6 +188,9 @@
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
       </if>
       <if test="body != null" >
         #{body,jdbcType=LONGVARCHAR},
@@ -218,6 +227,9 @@
       <if test="record.address != null" >
         address = #{record.address,jdbcType=VARCHAR},
       </if>
+      <if test="record.picture != null" >
+        picture = #{record.picture,jdbcType=VARCHAR},
+      </if>
       <if test="record.body != null" >
         body = #{record.body,jdbcType=LONGVARCHAR},
       </if>
@@ -235,6 +247,7 @@
       lectures = #{record.lectures,jdbcType=VARCHAR},
       organizer = #{record.organizer,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR},
       body = #{record.body,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +261,8 @@
       start = #{record.start,jdbcType=VARCHAR},
       lectures = #{record.lectures,jdbcType=VARCHAR},
       organizer = #{record.organizer,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR}
+      address = #{record.address,jdbcType=VARCHAR},
+      picture = #{record.picture,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -274,6 +288,9 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
       <if test="body != null" >
         body = #{body,jdbcType=LONGVARCHAR},
       </if>
@@ -288,6 +305,7 @@
       lectures = #{lectures,jdbcType=VARCHAR},
       organizer = #{organizer,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
       body = #{body,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -298,7 +316,8 @@
       start = #{start,jdbcType=VARCHAR},
       lectures = #{lectures,jdbcType=VARCHAR},
       organizer = #{organizer,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

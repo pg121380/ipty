@@ -15,6 +15,8 @@ public class Event {
 
     private String address;
 
+    private String picture;
+
     private String body;
 
     public String getId() {
@@ -71,6 +73,14 @@ public class Event {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture == null ? null : picture.trim();
     }
 
     public String getBody() {
