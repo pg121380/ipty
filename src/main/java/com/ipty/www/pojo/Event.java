@@ -15,6 +15,7 @@ public class Event {
 
     private String address;
 
+    //--封面
     private String picture;
 
     private String body;
