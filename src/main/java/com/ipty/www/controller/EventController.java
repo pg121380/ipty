@@ -18,7 +18,6 @@ import com.ipty.www.entity.Result;
 @RestController
 @RequestMapping("/event")
 public class EventController {
-
 	@Autowired
 	private EventService eventService;
 	
