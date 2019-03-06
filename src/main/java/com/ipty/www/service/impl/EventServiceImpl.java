@@ -8,6 +8,7 @@ import com.ipty.www.pojo.Event;
 import com.ipty.www.pojo.EventExample;
 import com.ipty.www.pojo.EventExample.Criteria;
 import com.ipty.www.service.EventService;
+import com.ipty.www.util.NoteUtil;
 import com.ipty.www.entity.PageResult;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class EventServiceImpl implements EventService {
 	 */
 	@Override
 	public void add(Event event) {
+		event.setId(NoteUtil.createId());
 		eventMapper.insert(event);		
 	}
 

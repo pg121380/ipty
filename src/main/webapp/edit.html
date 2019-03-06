@@ -1,19 +1,72 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
-    <title>编写事件</title>
+    <title>录入事件</title>
+    <script type="text/javascript" src="http://cdn.zimowen.com/jquery.min.js"></script>
+    <script type="text/javascript" src="js/event.js"></script>
+    <script type="text/javascript" src="js/jquery-form.js"></script>
 </head>
+
 <body>
-<!-- 加载编辑器的容器 -->
-<script id="container" name="content" type="text/plain">这里写你的初始化内容</script>
-<!-- 配置文件 -->
-<script type="text/javascript" src="js/ueditor/ueditor.config.js"></script>
-<!-- 编辑器源码文件 -->
-<script type="text/javascript" src="js/ueditor/ueditor.all.min.js"></script>
-<!-- 实例化编辑器 -->
-<script type="text/javascript">
-    var ue = UE.getEditor('container');
-</script>
+    <!-- 加载编辑器的容器 -->
+    <script id="container" name="content" type="text/plain">
+        	这里写你的初始化内容
+    </script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="js/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="js/ueditor/ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+	<script type="text/javascript" src="js/ueditor/ueditor.js"></script>
+    <script type="text/javascript">
+        //var ue = UE.getEditor('container');
+        $(function() {
+        	//增加ueditor组件
+        	addUeditor();
+        	//保存笔记
+			$("#save_note").click(sureUpdateNote);
+        });
+    </script>
+    <div class="col-xs-8">
+    	<form id="form" action="./file/fileupload" method="post" enctype="multipart/form-data" target="iframe">
+        	<label>封面图片上传</label>
+        	<input type="file" name="file">
+        	<input id="sendPicture" type="submit" value="提交照片">
+        	你点提交照片之后，按F12打开控制台，看有没有输出回显路径，有的话你就传上来了，没有你就是个five
+    	</form>
+    	<iframe src="" frameborder="100%" name="iframe">
+    		<input type="text" id="pictureUrl" placeholder='图片路径'>
+    	</iframe>
+    	<div>
+			<input type="text" id="categories" placeholder='标题'>
+		</div>
+		<div>
+			<input type="text" id="price" placeholder='花费金额'>
+		</div>
+		<div>
+			<input type="text" id="start" placeholder='开始时间'>eg:2019-3-6
+		</div>
+		<div>
+			<input type="text" id="lectures" placeholder='与会者人数'>
+		</div>
+		<div>
+			<input type="text" id="organizer" placeholder='组织者'>
+		</div>
+		<div>
+			<input type="text" id="address" placeholder='地址'>
+		</div>
+	</div>
+	
+	<div>
+    	<script id="myEditor" name="content" type="text/plain"
+		style="width:50%;height:550px; "></script>
+	</div>
+		
+	<div class="col-xs-3" id="save_button_div">
+		<button type="button" id='save_note'>保存笔记</button>
+	</div>
 </body>
+
 </html>
