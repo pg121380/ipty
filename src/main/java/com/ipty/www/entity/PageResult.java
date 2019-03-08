@@ -30,4 +30,6 @@ public class PageResult implements Serializable{
 		this.rows = rows;
 	}
 	
+	
+	
 }

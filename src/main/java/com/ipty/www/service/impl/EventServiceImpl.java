@@ -1,5 +1,7 @@
 package com.ipty.www.service.impl;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -9,6 +11,7 @@ import com.ipty.www.pojo.EventExample;
 import com.ipty.www.pojo.EventExample.Criteria;
 import com.ipty.www.service.EventService;
 import com.ipty.www.util.NoteUtil;
+import com.ipty.www.util.PageUtil;
 import com.ipty.www.entity.PageResult;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +40,8 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public PageResult findPage(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);		
-		Page<Event> page=   (Page<Event>) eventMapper.selectByExample(null);
-		return new PageResult(page.getTotal(), page.getResult());
+		List total = (ArrayList) eventMapper.selectByExample(null);
+		return new PageResult(total.size(), PageUtil.helpPage(total, pageNum, pageSize));
 	}
 
 	/**
@@ -111,8 +114,8 @@ public class EventServiceImpl implements EventService {
 			}
 		}
 		
-		Page<Event> page= (Page<Event>)eventMapper.selectByExample(example);		
-		return new PageResult(page.getTotal(), page.getResult());
+		ArrayList<Event> page= (Page<Event>)eventMapper.selectByExample(example);		
+		return new PageResult(page.size(), page);
 	}
 	
 }

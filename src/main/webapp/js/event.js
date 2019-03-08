@@ -21,7 +21,7 @@ function sureUpdateNote() {
 //		var noteBookId = $("#pc_part_3").data("bookId");
 						//var noteId = $li.data("noteId");
 		// 获取笔记标题
-		var categories = $("#categories").val().trim();
+		//var categories = $("#categories").val().trim();
 		var price = $("#price").val().trim();
 		var start = $("#start").val().trim();
 		var lectures = $("#lectures").val().trim();

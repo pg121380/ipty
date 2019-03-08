@@ -6,16 +6,28 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * 负责获取UUID和加密字符串
+ * @author 89520
+ *
+ */
 public class NoteUtil {
-    public NoteUtil() {
-    }
 
+    /**
+     * 创造UUID
+     * @return
+     */
     public static String createId() {
         UUID uuid = UUID.randomUUID();
         String id = uuid.toString();
         return id.replace("-", "");
     }
 
+    /**
+     * MD5加密
+     * @param data
+     * @return
+     */
     public static String md5(String data) {
         try {
             byte[] md5 = md5(data.getBytes("utf-8"));
