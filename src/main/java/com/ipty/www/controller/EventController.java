@@ -1,4 +1,5 @@
 package com.ipty.www.controller;
+import java.util.Deque;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ import com.ipty.www.entity.Result;
 public class EventController {
 	@Autowired
 	private EventService eventService;
-	
+	java.util.Stack<E>
 	/**
 	 * 返回全部列表
 	 * @return
