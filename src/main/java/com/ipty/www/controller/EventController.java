@@ -21,7 +21,7 @@ import com.ipty.www.entity.Result;
 public class EventController {
 	@Autowired
 	private EventService eventService;
-	java.util.Stack<E>
+
 	/**
 	 * 返回全部列表
 	 * @return
